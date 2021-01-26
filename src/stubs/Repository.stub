@@ -1,0 +1,13 @@
+<?php
+namespace App\Repositories;
+
+use App\Models\{{Model}};
+use Towerdigital\Repositories\BaseRepository;
+
+class {{Model}}Repository extends BaseRepository
+{
+    public function __construct({{Model}} ${{model}})
+    {
+        parent::__construct(${{model}});
+    }
+}

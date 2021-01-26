@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Transformers;
+
+use App\Models\{{Model}};
+use League\Fractal\TransformerAbstract;
+
+class {{Model}}Transformer extends TransformerAbstract
+{
+    /**
+     * The relations to include by default
+     * when preparing a response
+     *
+     * @property Array
+     */
+    protected $defaultIncludes = [
+        //
+    ];
+
+    /**
+     * The relations to include if specified in the query param
+     * when preparing a response
+     *
+     * @property Array
+     */
+    protected $availableIncludes = [
+        //
+    ];
+
+    public function transform({{Model}} ${{model}})
+    {
+        return [
+            'id' => ${{model}}->id,
+            //
+        ];
+    }
+}

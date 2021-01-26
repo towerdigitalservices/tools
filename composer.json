@@ -1,0 +1,27 @@
+{
+    "name": "towerdigital/tools",
+    "description": "Tools to use with Professional Laravel APIs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kyle Logue",
+            "email": "klogue214@gmail.com"
+        }
+    ],
+    "require": {
+        "league/fractal": "^0.19.2",
+        "illuminate/support": "^8.24"
+    },
+    "autoload": {
+        "psr-4": {
+            "TowerDigital\\Tools\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TowerDigital\\Tools\\ToolServiceProvider"
+            ]
+        }
+    }
+}
