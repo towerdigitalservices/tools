@@ -36,10 +36,29 @@ class RepositoryMakeCommand extends Command
             $repo
         );
         $path = app_path('/Repositories');
+        $this->checkForDirectory($path);
+        $this->writeToFile($model, $repo);
+
+    }
+
+    protected function checkForDirectory(string $path)
+    {
         if(!is_dir($path)) {
             mkdir($path, 0755, true);
         }
-        file_put_contents(app_path("/Repositories/{$model}Repository.php"), $repo);
+    }
 
+    protected function writeToFile(string $model, string $repo)
+    {
+        if(is_file(app_path("/Repositories/{$model}Repository.php"))) {
+            if($this->confirm('This file already exists.  Do you want to overwrite it?')) {
+                file_put_contents(app_path("/Repositories/{$model}Repository.php"), $repo);
+            } else {
+                $this->info('Repository creation aborted.');
+            }
+        } else {
+            file_put_contents(app_path("/Repositories/{$model}Repository.php"), $repo);
+            $this->info('Repository created successfully.');
+        }
     }
 }

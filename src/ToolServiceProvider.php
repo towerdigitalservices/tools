@@ -15,7 +15,9 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishes([
+            __DIR__.'/../config/tools.php' => config_path('tools.php')
+        ], 'config');
     }
 
     /**
