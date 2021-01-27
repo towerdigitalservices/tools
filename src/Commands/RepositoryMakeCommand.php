@@ -53,6 +53,7 @@ class RepositoryMakeCommand extends Command
         if(is_file(app_path("/Repositories/{$model}Repository.php"))) {
             if($this->confirm('This file already exists.  Do you want to overwrite it?')) {
                 file_put_contents(app_path("/Repositories/{$model}Repository.php"), $repo);
+                $this->info('Repository overwritten successfully.');
             } else {
                 $this->info('Repository creation aborted.');
             }

@@ -25,21 +25,41 @@ class TransformerMakeCommand extends Command
         $modelLower = strtolower($this->option('model'));
         $model = ucfirst($modelLower);
         $stub = file_get_contents(__DIR__ . '/../stubs/Transformer.stub');
-        $repo = str_replace(
+        $transformer = str_replace(
             ['{{Model}}'],
             [$model],
             $stub
         );
-        $repo = str_replace(
+        $transformer = str_replace(
             ['{{model}}'],
             [$modelLower],
-            $repo
+            $transformer
         );
         $path = app_path('/Transformers');
+        $this->checkForDirectory($path);
+        $this->writeToFile($model, $transformer);
+
+    }
+
+    protected function checkForDirectory(string $path)
+    {
         if(!is_dir($path)) {
             mkdir($path, 0755, true);
         }
-        file_put_contents(app_path("/Transformers/{$model}Transformer.php"), $repo);
+    }
 
+    protected function writeToFile(string $model, string $transformer)
+    {
+        if(is_file(app_path("/Transformers/{$model}Transformer.php"))) {
+            if($this->confirm('This transformer already exists.  Do you want to overwrite it?')) {
+                file_put_contents(app_path("/Transformers/{$model}Transformer.php"), $transformer);
+                $this->info('Transformer overwritten successfully.');
+            } else {
+                $this->info('Transformer creation aborted.');
+            }
+        } else {
+            file_put_contents(app_path("/Transformers/{$model}Transformer.php"), $transformer);
+            $this->info('Transformer created successfully.');
+        }
     }
 }
