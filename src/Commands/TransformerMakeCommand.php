@@ -11,7 +11,7 @@ class TransformerMakeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:transformer {--model=}';
+    protected $signature = 'make:transformer {name} {--model=}';
 
     /**
      * The console command description.
@@ -22,20 +22,20 @@ class TransformerMakeCommand extends Command
 
     public function handle()
     {
+        if (empty($this->option('model'))) {
+            $this->error('You must provide the model option(--model=Example)');
+            exit;
+        }
         $modelLower = strtolower($this->option('model'));
+
         $model = ucfirst($modelLower);
         $stub = file_get_contents(__DIR__ . '/../stubs/Transformer.stub');
         $transformer = str_replace(
-            ['{{Model}}'],
-            [$model],
+            ['{{Model}}','{{model}}'],
+            [$model, $modelLower],
             $stub
         );
-        $transformer = str_replace(
-            ['{{model}}'],
-            [$modelLower],
-            $transformer
-        );
-        $path = app_path('/Transformers');
+        $path = app_path('/Http/Transformers');
         $this->checkForDirectory($path);
         $this->writeToFile($model, $transformer);
 
@@ -50,16 +50,32 @@ class TransformerMakeCommand extends Command
 
     protected function writeToFile(string $model, string $transformer)
     {
-        if(is_file(app_path("Http/Transformers/{$model}Transformer.php"))) {
-            if($this->confirm('This transformer already exists.  Do you want to overwrite it?')) {
-                file_put_contents(app_path("Http/Transformers/{$model}Transformer.php"), $transformer);
-                $this->info('Transformer overwritten successfully.');
+        if($name = $this->argument('name')) {
+            if(is_file(app_path("/Http/Transformers/{$name}.php"))) {
+                if($this->confirm('This transformer already exists.  Do you want to overwrite it?')) {
+                    file_put_contents(app_path("/Http/Transformers/{$name}.php"), $transformer);
+                    $this->info('Transformer overwritten successfully.');
+                } else {
+                    $this->info('Transformer creation aborted.');
+                }
             } else {
-                $this->info('Transformer creation aborted.');
+                file_put_contents(app_path("/Http/Transformers/{$name}.php"), $transformer);
+                $this->info('Transformer created successfully.');
             }
+
         } else {
-            file_put_contents(app_path("/Transformers/{$model}Transformer.php"), $transformer);
-            $this->info('Transformer created successfully.');
+
+            if(is_file(app_path("/Http/Transformers/{$model}Transformer.php"))) {
+                if($this->confirm('This transformer already exists.  Do you want to overwrite it?')) {
+                    file_put_contents(app_path("/Http/Transformers/{$model}Transformer.php"), $transformer);
+                    $this->info('Transformer overwritten successfully.');
+                } else {
+                    $this->info('Transformer creation aborted.');
+                }
+            } else {
+                file_put_contents(app_path("/Http/Transformers/{$model}Transformer.php"), $transformer);
+                $this->info('Transformer created successfully.');
+            }
         }
     }
 }
