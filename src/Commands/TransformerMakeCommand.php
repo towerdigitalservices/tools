@@ -50,9 +50,9 @@ class TransformerMakeCommand extends Command
 
     protected function writeToFile(string $model, string $transformer)
     {
-        if(is_file(app_path("/Transformers/{$model}Transformer.php"))) {
+        if(is_file(app_path("Http/Transformers/{$model}Transformer.php"))) {
             if($this->confirm('This transformer already exists.  Do you want to overwrite it?')) {
-                file_put_contents(app_path("/Transformers/{$model}Transformer.php"), $transformer);
+                file_put_contents(app_path("Http/Transformers/{$model}Transformer.php"), $transformer);
                 $this->info('Transformer overwritten successfully.');
             } else {
                 $this->info('Transformer creation aborted.');

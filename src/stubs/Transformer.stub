@@ -11,7 +11,7 @@ class {{Model}}Transformer extends TransformerAbstract
      * The relations to include by default
      * when preparing a response
      *
-     * @property Array
+     * @var Array
      */
     protected $defaultIncludes = [
         //
@@ -21,7 +21,7 @@ class {{Model}}Transformer extends TransformerAbstract
      * The relations to include if specified in the query param
      * when preparing a response
      *
-     * @property Array
+     * @var Array
      */
     protected $availableIncludes = [
         //
