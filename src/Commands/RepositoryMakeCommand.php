@@ -11,7 +11,7 @@ class RepositoryMakeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:repository {--model=}';
+    protected $signature = 'make:repository {name} {--model=}';
 
     /**
      * The console command description.
@@ -22,22 +22,24 @@ class RepositoryMakeCommand extends Command
 
     public function handle()
     {
+        if (empty($this->option('model'))) {
+            $this->error('You must provide the model option(--model=Example)');
+            exit;
+        }
         $modelLower = strtolower($this->option('model'));
         $model = ucfirst($modelLower);
         $stub = file_get_contents(__DIR__ . '/../stubs/Repository.stub');
         $repo = str_replace(
-            ['{{Model}}'],
-            [$model],
+            ['{{Model}}', '{{model}}'],
+            [$model, $modelLower],
             $stub
         );
-        $repo = str_replace(
-            ['{{model}}'],
-            [$modelLower],
-            $repo
-        );
+
         $path = app_path('/Repositories');
         $this->checkForDirectory($path);
-        $this->writeToFile($model, $repo);
+
+        $name = $this->argument('name');
+        $this->writeToFile($name, $repo);
 
     }
 
@@ -48,17 +50,17 @@ class RepositoryMakeCommand extends Command
         }
     }
 
-    protected function writeToFile(string $model, string $repo)
+    protected function writeToFile(string $name, string $repo)
     {
-        if(is_file(app_path("/Repositories/{$model}Repository.php"))) {
+        if(is_file(app_path("/Repositories/{$name}.php"))) {
             if($this->confirm('This file already exists.  Do you want to overwrite it?')) {
-                file_put_contents(app_path("/Repositories/{$model}Repository.php"), $repo);
+                file_put_contents(app_path("/Repositories/{$name}.php"), $repo);
                 $this->info('Repository overwritten successfully.');
             } else {
                 $this->info('Repository creation aborted.');
             }
         } else {
-            file_put_contents(app_path("/Repositories/{$model}Repository.php"), $repo);
+            file_put_contents(app_path("/Repositories/{$name}.php"), $repo);
             $this->info('Repository created successfully.');
         }
     }
