@@ -10,7 +10,7 @@ composer require towerdigital/tools
 To generate a Repository:
 
 ```bash
-php artisan make:repository --model=User
+php artisan make:repository UserRepository --model=User
 ```
 
 This will create a new UserRepository class file located in the `Repositories` directory.  The directory will be created if it doesn't yet exist.
@@ -18,7 +18,7 @@ This will create a new UserRepository class file located in the `Repositories` d
 To generate a Transformer:
 
 ```bash
-php artisan make:transformer --model=User
+php artisan make:transformer UserTransformer --model=User
 ```
 
 Transformers are a creation from another package `league/fractal` that were adopted and applied to Laravel.
