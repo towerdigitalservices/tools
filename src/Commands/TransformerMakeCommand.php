@@ -28,18 +28,18 @@ class TransformerMakeCommand extends Command
         }
         $modelLower = strtolower($this->option('model'));
 
+        $name = $this->argument('name');
         $model = ucfirst($modelLower);
         $stub = file_get_contents(__DIR__ . '/../stubs/Transformer.stub');
         $transformer = str_replace(
-            ['{{Model}}', '{{model}}'],
-            [$model, $modelLower],
+            ['{{Model}}', '{{model}}','{{name}}'],
+            [$model, $modelLower, $name],
             $stub
         );
 
         $path = app_path('/Http/Transformers');
         $this->checkForDirectory($path);
 
-        $name = $this->argument('name');
         $this->writeToFile($name, $transformer);
 
     }
