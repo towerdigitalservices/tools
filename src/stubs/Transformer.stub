@@ -5,7 +5,7 @@ namespace App\Http\Transformers;
 use App\Models\{{Model}};
 use League\Fractal\TransformerAbstract;
 
-class {{name}}Transformer extends TransformerAbstract
+class {{name}} extends TransformerAbstract
 {
     /**
      * The relations to include by default
