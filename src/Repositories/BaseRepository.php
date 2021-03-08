@@ -23,7 +23,7 @@ class BaseRepository
      */
     public function byId(string $id): Model
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     /**
