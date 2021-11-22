@@ -26,12 +26,13 @@ class RepositoryMakeCommand extends Command
             $this->error('You must provide the model option(--model=Example)');
             exit;
         }
+        $name = $this->argument('name');
         $modelLower = strtolower($this->option('model'));
         $model = ucfirst($modelLower);
         $stub = file_get_contents(__DIR__ . '/../stubs/Repository.stub');
         $repo = str_replace(
-            ['{{Model}}', '{{model}}'],
-            [$model, $modelLower],
+            ['{{Model}}', '{{model}}','{{name}}'],
+            [$model, $modelLower, $name],
             $stub
         );
 

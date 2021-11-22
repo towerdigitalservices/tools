@@ -26,9 +26,8 @@ class TransformerMakeCommand extends Command
             $this->error('You must provide the model option(--model=Example)');
             exit;
         }
-        $modelLower = strtolower($this->option('model'));
-
         $name = $this->argument('name');
+        $modelLower = strtolower($this->option('model'));
         $model = ucfirst($modelLower);
         $stub = file_get_contents(__DIR__ . '/../stubs/Transformer.stub');
         $transformer = str_replace(
